@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace PowerCopyWinform
@@ -12,6 +11,25 @@ namespace PowerCopyWinform
         public FormMain()
         {
             InitializeComponent();
+        }
+
+        public FormMain(string action, string sourcePath) : this()
+        {
+            switch (action)
+            {
+                case "cp":
+                    copyRadioButton.Checked = true;
+                    break;
+                case "mv":
+                    moveRadioButton.Checked = true;
+                    break;
+            }
+
+            sourcePath = sourcePath.Trim();
+            if (!string.IsNullOrEmpty(sourcePath))
+            {
+                srcTextBox.Text = sourcePath;
+            }
         }
 
         private void executeButton_Click(object sender, EventArgs e)
@@ -321,11 +339,13 @@ namespace PowerCopyWinform
             {
                 return;
             }
+
             var baseDir = path;
             if (File.Exists(path))
             {
                 baseDir = Path.GetDirectoryName(path);
             }
+
             if (Directory.Exists(baseDir))
             {
                 Process.Start("explorer.exe", baseDir);
@@ -339,11 +359,13 @@ namespace PowerCopyWinform
             {
                 return;
             }
+
             var baseDir = path;
             if (File.Exists(path))
             {
                 baseDir = Path.GetDirectoryName(path);
             }
+
             if (Directory.Exists(baseDir))
             {
                 Process.Start("explorer.exe", baseDir);
