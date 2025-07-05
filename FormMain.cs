@@ -39,6 +39,20 @@ namespace PowerCopyWinform
             var dst = dstTextBox.Text;
             dst = dst.Trim();
 
+            if (string.IsNullOrEmpty(src) || string.IsNullOrEmpty(dst))
+            {
+                ClearLog();
+                AppendLog("请输入源路径或目的路径");
+                return;
+            }
+
+            if (!File.Exists(src) && !Directory.Exists(src))
+            {
+                ClearLog();
+                AppendLog("源路径不存在");
+                return;
+            }
+
             ClearLog();
             startButton.Enabled = false;
             actionRadioButtonPanel.Enabled = false;
@@ -186,7 +200,7 @@ namespace PowerCopyWinform
             }
             else
             {
-                AppendLog("Source not exists");
+                AppendLog("源路径不存在");
                 e.Result = -1;
                 return;
             }
