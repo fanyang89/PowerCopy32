@@ -5,7 +5,7 @@
 #define MyAppVersion "1.0.0"
 #define MyAppPublisher "SmartX"
 #define MyAppURL "https://www.smartx.com"
-#define MyAppExeName "PowerCopyWinform.exe"
+#define MyAppExeName "PowerCopy32.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.

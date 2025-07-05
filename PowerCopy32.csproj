@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5684982D-DBFE-499B-ADD4-D2B866DD5749}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PowerCopyWinform</RootNamespace>
-    <AssemblyName>PowerCopyWinform</AssemblyName>
+    <RootNamespace>PowerCopy32</RootNamespace>
+    <AssemblyName>PowerCopy32</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -54,7 +54,8 @@
     <ApplicationIcon>PowerCopy-Pure.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>PowerCopyWinform.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -63,7 +64,7 @@
     <ManifestCertificateThumbprint>98F2FD88D2A94C497C68E332B2367E1B16217AEC</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>PowerCopyWinform_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>PowerCopy32_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -108,7 +109,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.manifest" />
-    <None Include="PowerCopyWinform_TemporaryKey.pfx" />
+    <None Include="PowerCopy32_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

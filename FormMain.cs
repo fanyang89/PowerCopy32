@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace PowerCopyWinform
+namespace PowerCopy32
 {
     public partial class FormMain : Form
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PowerCopyWinform
+namespace PowerCopy32
 {
     internal static class Program
     {

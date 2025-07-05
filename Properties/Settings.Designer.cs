@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PowerCopyWinform.Properties
+namespace PowerCopy32.Properties
 {
 
 

@@ -1,4 +1,4 @@
-﻿namespace PowerCopyWinform
+﻿namespace PowerCopy32
 {
     class RoboActionParams
     {
