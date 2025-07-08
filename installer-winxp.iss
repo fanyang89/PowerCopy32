@@ -21,10 +21,11 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputBaseFilename=PowerCopySetup-winxp
+OutputBaseFilename={#MyAppName}-{#MyAppVersion}-installer
 SetupIconFile=PowerCopy-Pure.ico
 Compression=lzma
 SolidCompression=yes
+OutputDir=bin\
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -35,8 +36,9 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "bin\x86\Release\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\x86\Release\zh-CHS\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\x86\Release\PowerCopy32.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\x86\Release\PowerCopy32.exe.manifest"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\x86\Release\PowerCopy32.pdb"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
