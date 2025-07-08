@@ -7,10 +7,16 @@ using System.Windows.Forms;
 
 namespace PowerCopy32 {
     public partial class FormMain : Form {
-        private DateTime elapsed;
+        private DateTime _elapsed;
+        private readonly string _roboCopyPath;
+        private bool _isSystemRoboCopy => _roboCopyPath.ToLowerInvariant().Contains("\\system32\\");
 
         public FormMain() {
             InitializeComponent();
+            var ok = Win32.FindInPath("robocopy.exe", out _roboCopyPath);
+            if (!ok) {
+                throw new FileNotFoundException();
+            }
         }
 
         public FormMain(string action, string sourcePath) : this() {
@@ -29,7 +35,7 @@ namespace PowerCopy32 {
             }
         }
 
-        public void Cancel() {
+        private void Cancel() {
             if (backgroundWorker1.IsBusy) {
                 backgroundWorker1.CancelAsync();
             }
@@ -140,11 +146,16 @@ namespace PowerCopy32 {
             var actionParams = (RoboActionParams)e.Argument;
 
             // https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/robocopy
+            // WinXP robocopy.exe don't support /J /MT
             // MT: multithread
             // E:  Copies subdirectories and includes empty directories
             // Z:  Copies files in restartable mode
             // IS: Includes the same files. Same files are identical in name, size, times, and all attributes.
-            var flags = " /MT /E /Z";
+            // J:  Copies using unbuffered I/O (recommended for large files)
+            var flags = " /E /Z";
+            if (_isSystemRoboCopy) {
+                flags += " /MT";
+            }
 
             switch (actionParams.RoboAction) {
                 case RoboAction.Copy:
@@ -170,7 +181,11 @@ namespace PowerCopy32 {
                 var src = TrimSlash(Path.GetDirectoryName(actionParams.SourcePath));
                 var dst = TrimSlash(actionParams.TargetPath);
                 var fileName = Path.GetFileName(actionParams.SourcePath);
-                arguments = $"\"{src}\" \"{dst}\" \"{fileName}\" /J" + flags;
+                arguments = $"\"{src}\" \"{dst}\" \"{fileName}\"";
+                if (_isSystemRoboCopy) {
+                    arguments += " /J";
+                }
+                arguments += flags;
             } else {
                 AppendLog("源路径不存在");
                 e.Result = -1;
@@ -179,7 +194,7 @@ namespace PowerCopy32 {
 
             using (var process = new Process()) {
                 process.StartInfo = new ProcessStartInfo {
-                    FileName = "robocopy.exe",
+                    FileName = _roboCopyPath,
                     Arguments = arguments,
                     CreateNoWindow = true,
                     UseShellExecute = false,
@@ -223,7 +238,7 @@ namespace PowerCopy32 {
             progressBar.Value = progressBar.Maximum;
             toolStripStatusLabelProgress.Text = "100%";
             timer1.Stop();
-            elapsed = DateTime.MinValue;
+            _elapsed = DateTime.MinValue;
             toolStripStatusLabelElapsed.Text = "";
             cancelButton.Enabled = false;
         }
@@ -278,8 +293,8 @@ namespace PowerCopy32 {
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
-            elapsed += TimeSpan.FromMilliseconds(timer1.Interval);
-            toolStripStatusLabelElapsed.Text = elapsed.ToString("HH:mm:ss");
+            _elapsed += TimeSpan.FromMilliseconds(timer1.Interval);
+            toolStripStatusLabelElapsed.Text = _elapsed.ToString("HH:mm:ss");
         }
 
         private void button2_Click(object sender, EventArgs e) {

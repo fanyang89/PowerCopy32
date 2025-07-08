@@ -39,6 +39,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "bin\x86\Release\PowerCopy32.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\x86\Release\PowerCopy32.exe.manifest"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\x86\Release\PowerCopy32.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\x86\Release\robocopy.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
