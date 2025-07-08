@@ -1,14 +1,11 @@
-﻿namespace PowerCopy32
-{
-    class RoboActionParams
-    {
+﻿namespace PowerCopy32 {
+    class RoboActionParams {
+        public RoboAction RoboAction { get; set; }
         public string SourcePath { get; set; }
         public string TargetPath { get; set; }
-        public RoboAction RoboAction { get; set; }
     }
 
-    enum RoboAction
-    {
+    enum RoboAction {
         Copy,
         Move
     }
