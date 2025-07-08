@@ -9,13 +9,14 @@ namespace PowerCopy32 {
     public partial class FormMain : Form {
         private DateTime _elapsed;
         private readonly string _roboCopyPath;
-        private bool _isSystemRoboCopy => _roboCopyPath.ToLowerInvariant().Contains("\\system32\\");
+        private bool IsSystemRoboCopy => _roboCopyPath.ToLowerInvariant().Contains("\\system32\\");
 
         public FormMain() {
             InitializeComponent();
-            var ok = Win32.FindInPath("robocopy.exe", out _roboCopyPath);
+            const string roboCopyPath = "robocopy.exe";
+            var ok = Win32.FindInPath(roboCopyPath, out _roboCopyPath);
             if (!ok) {
-                throw new FileNotFoundException();
+                _roboCopyPath = roboCopyPath;
             }
         }
 
@@ -153,7 +154,7 @@ namespace PowerCopy32 {
             // IS: Includes the same files. Same files are identical in name, size, times, and all attributes.
             // J:  Copies using unbuffered I/O (recommended for large files)
             var flags = " /E /Z";
-            if (_isSystemRoboCopy) {
+            if (IsSystemRoboCopy) {
                 flags += " /MT";
             }
 
@@ -174,18 +175,29 @@ namespace PowerCopy32 {
                 if (dst.EndsWith("\\")) {
                     dst += Path.GetFileName(src);
                 }
-
                 dst = TrimSlash(dst);
-                arguments = $"\"{src}\" \"{dst}\"" + flags;
+
+                if (IsSystemRoboCopy) {
+                    arguments = $"\"{src}\" \"{dst}\"" + flags;
+                } else {
+                    src = Win32.GetShortPathName(src);
+                    dst = Win32.GetShortPathName(dst);
+                    arguments = $"{src} {dst}" + flags;
+                }
+
             } else if (File.Exists(actionParams.SourcePath)) {
                 var src = TrimSlash(Path.GetDirectoryName(actionParams.SourcePath));
                 var dst = TrimSlash(actionParams.TargetPath);
                 var fileName = Path.GetFileName(actionParams.SourcePath);
-                arguments = $"\"{src}\" \"{dst}\" \"{fileName}\"";
-                if (_isSystemRoboCopy) {
-                    arguments += " /J";
+
+                if (IsSystemRoboCopy) {
+                    arguments = $"\"{src}\" \"{dst}\" \"{fileName}\" /J" + flags;
+                } else {
+                    src = Win32.GetShortPathName(src);
+                    dst = Win32.GetShortPathName(dst);
+                    fileName = Win32.GetShortPathName(fileName);
+                    arguments = $"{src} {dst} {fileName}" + flags;
                 }
-                arguments += flags;
             } else {
                 AppendLog("源路径不存在");
                 e.Result = -1;
