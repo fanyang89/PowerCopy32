@@ -28,7 +28,8 @@ SolidCompression=yes
 OutputDir=bin\
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+; Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -48,3 +49,17 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+[Registry]
+;Registry data from file register-context-menu.reg
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Copy"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Copy"; ValueType: string; ValueName: "Icon"; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Copy"; ValueType: string; ValueName: ""; ValueData: "使用 PowerCopy 复制"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Copy\command"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Copy\command"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName} cp ""%1"""; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Move"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Move"; ValueType: string; ValueName: "Icon"; ValueData: "{app}\{#MyAppExeName}"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Move"; ValueType: string; ValueName: ""; ValueData: "使用 PowerCopy 移动"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Move\command"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "Software\Classes\*\shell\PowerCopy_Move\command"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName} mv ""%1"""; Flags: uninsdeletevalue
+;End of registry data from file register-context-menu.reg

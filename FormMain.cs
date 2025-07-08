@@ -18,6 +18,7 @@ namespace PowerCopy32 {
             if (!ok) {
                 _roboCopyPath = roboCopyPath;
             }
+            AppendLog(IsSystemRoboCopy ? "Using system robocopy" : "Using internal robocopy");
         }
 
         public FormMain(string action, string sourcePath) : this() {
