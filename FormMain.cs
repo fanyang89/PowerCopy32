@@ -78,7 +78,7 @@ namespace PowerCopy32 {
             }
 
             if (roboAction == null) {
-                throw new InvalidOperationException(nameof(roboAction));
+                return;
             }
 
             backgroundWorker1.RunWorkerAsync(new RoboActionParams {
@@ -191,12 +191,11 @@ namespace PowerCopy32 {
                 var fileName = Path.GetFileName(actionParams.SourcePath);
 
                 if (IsSystemRoboCopy) {
-                    arguments = $"\"{src}\" \"{dst}\" \"{fileName}\" /J" + flags;
+                    arguments = $"\"{src}\" \"{dst}\" \"{fileName}\" /J /LEV:1" + flags;
                 } else {
                     src = Win32.GetShortPathName(src);
                     dst = Win32.GetShortPathName(dst);
-                    fileName = Win32.GetShortPathName(fileName);
-                    arguments = $"{src} {dst} {fileName}" + flags;
+                    arguments = $"{src} {dst} {fileName} /LEV:1" + flags;
                 }
             } else {
                 AppendLog("源路径不存在");
@@ -259,14 +258,14 @@ namespace PowerCopy32 {
             BecomeReady();
         }
 
-        private int FindPercent(string text) {
+        private float FindPercent(string text) {
             var i = text.IndexOf('%');
             if (i < 0) {
                 return -1;
             }
 
             var s = text.Substring(0, i).Trim();
-            if (!int.TryParse(s, out var p)) {
+            if (!float.TryParse(s, out var p)) {
                 return -1;
             }
 
@@ -277,7 +276,7 @@ namespace PowerCopy32 {
             var message = (string)e.UserState;
             var p = FindPercent(message);
             if (p >= 0 && p <= 100) {
-                progressBar.Value = p;
+                progressBar.Value = (int)Math.Round(p);
                 toolStripStatusLabelProgress.Text = $"{p}%";
             } else {
                 AppendLog(message);
